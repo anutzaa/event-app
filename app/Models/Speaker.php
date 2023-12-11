@@ -9,4 +9,9 @@ class Speaker extends Model
 {
     use HasFactory;
     public $fillable = ['id', 'name', 'email', 'phone', 'address'];
+
+    public function _events()
+    {
+        return $this->belongsToMany(Event::class);
+    }
 }

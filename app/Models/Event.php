@@ -10,4 +10,9 @@ class Event extends Model
     use HasFactory;
     public $fillable = ['id', 'title', 'description', 'date', 'time', 'location', 'price', 'contact_ID'];
 
+    public function speakers()
+    {
+        return $this->belongsToMany(Speaker::class);
+    }
+
 }

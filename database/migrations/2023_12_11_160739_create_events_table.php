@@ -21,7 +21,6 @@ return new class extends Migration
             $table->time("time")->nullable();
             $table->string("location", 250)->nullable();
             $table->double("price", 10, 2)->nullable();
-            $table->foreign("contact_ID")->references('id')->on('contact');
             $table->timestamps();
         });
     }
