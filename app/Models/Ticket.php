@@ -6,10 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Contact extends Model
+class Ticket extends Model
 {
     use HasFactory;
 
-    public $fillable = ['id', 'surname', 'name', 'email', 'phone'];
-
+    public $fillable = ['id', 'type', 'price', 'available'];
 }
