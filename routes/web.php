@@ -15,9 +15,20 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Auth::routes();
 
+Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/', [EventController::class, 'index']);
     Route::resource('tasks', EventController::class);
 });
+
+Route::patch('update-cart', [TicketController::class, 'update']);
+Route::delete('remove-from-cart', [TicketController::class, 'remove']);
+
+Route::get('/', [TicketController::class, 'index']);
+Route::get('cart', [TicketController::class, 'cart']);
+Route::get('add-to-cart/{id}', [TicketController::class, 'addToCart']);
+Route::patch('update-cart', [TicketController::class, 'update']);
+Route::delete('remove-from-cart', [TicketController::class, 'destroy']);
