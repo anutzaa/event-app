@@ -20,7 +20,8 @@ return new class extends Migration
             $table->date("date")->nullable();
             $table->time("time")->nullable();
             $table->string("location", 250)->nullable();
-            $table->double("price", 10, 2)->nullable();
+            $table->unsignedInteger('contact_id')->nullable();
+            $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('cascade');
             $table->timestamps();
         });
     }

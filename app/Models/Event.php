@@ -8,20 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     use HasFactory;
-    public $fillable = ['id', 'title', 'description', 'date', 'time', 'location', 'price', 'contact_ID'];
+    public $fillable = ['id', 'title', 'description', 'date', 'time', 'location', 'contact_ID'];
 
     public function speakers()
     {
-        return $this->belongsToMany(Speaker::class);
+        return $this->belongsToMany(Speaker::class, 'events_speakers');
     }
 
     public function sponsors()
     {
-        return $this->belongsToMany(Sponsor::class);
+        return $this->belongsToMany(Sponsor::class, 'events_sponsors');
     }
 
     public function partners()
     {
-        return $this->belongsToMany(Partner::class);
+        return $this->belongsToMany(Partner::class, 'events_partners');
     }
 }
