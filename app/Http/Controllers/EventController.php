@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Event;
+use App\Http\Requests;
 
 class EventController extends Controller
 {
@@ -11,9 +13,11 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $tasks = Event::orderBy('id','ASC')->paginate(5);
+        $value=($request->input('page',1)-1)*5;
+        return view('events.list',compact('events'))->with('i',$value);
     }
 
     /**
@@ -23,7 +27,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return view('events.create');
     }
 
     /**
@@ -34,7 +38,10 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, ['title' => 'required','description' => 'required']);
+        // create new task
+        Event::create($request->all());
+        return redirect()->route('events.index')->with('success', 'Evenimentul a fost adăugat cu succes!');
     }
 
     /**
@@ -45,7 +52,8 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+        $event = Event::find($id);
+        return view('events.show', compact('event'));
     }
 
     /**
@@ -56,7 +64,8 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        //
+        $event = Event::find($id);
+        return view('events.edit', compact('event'));
     }
 
     /**
@@ -68,7 +77,11 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required' ]);
+        Event::find($id)->update($request->all());
+        return redirect()->route('events.index')->with('success','Evenimentul a fost actualizat cu succes!');
     }
 
     /**
@@ -79,6 +92,7 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Event::find($id)->delete();
+        return redirect()->route('events.index')->with('success', 'Evenimentul a fost șters cu succes!')ș
     }
 }

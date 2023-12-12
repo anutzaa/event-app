@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Ticket;
 
 class TicketController extends Controller
 {
@@ -13,51 +14,48 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        $tickets = Ticket::all();
+        return view('ticket', compact('tickets'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function cart()
     {
-        //
+        return view('cart');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function addToCart($id)
     {
-        //
+        $ticket = Ticket::find($id);
+        if (!$ticket) {
+            abort(404);
+        }
+
+        $cart = session()->get('cart');
+
+        //Verificam daca avem deja bilet in cos
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            //Verificam daca mai sunt bilete dispobibile
+            if ($ticket->available > 0) {
+                $cart[$id] = [
+                    "name" => $ticket->type,
+                    "quantity" => 1,
+                    "price" => $ticket->price,
+                    "photo" => $ticket->available
+                ];
+                //micsoram numarul de bilete disponibile
+                $ticket->available--;
+                $ticket->save();
+            } else {
+                return redirect()->back()->with('error', 'Nu mai sunt bilete disponibile!');
+            }
+        }
+
+        session()->put('cart', $cart);
+        return redirect()->back()->with('success', 'Bilet adăugat cu succes în coș!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -68,7 +66,12 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->id and $request->quantity) {
+            $cart = session()->get('cart');
+            $cart[$request->id]["quantity"] = $request->quantity;
+            session()->put('cart', $cart);
+            session()->flash('success', 'Coșul a fost actualizat!');
+        }
     }
 
     /**
@@ -77,8 +80,21 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+
+    public function destroy(Request $request)
     {
-        //
+        if ($request->id) {
+            $cart = session()->get('cart');
+            if (isset($cart[$request->id])) {
+                // Increment the 'available' attribute
+                $ticket = Ticket::find($request->id);
+                $ticket->available++;
+                $ticket->save();
+
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+            }
+            session()->flash('success', 'Bilet șters cu succes!');
+        }
     }
 }
