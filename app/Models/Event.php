@@ -15,4 +15,13 @@ class Event extends Model
         return $this->belongsToMany(Speaker::class);
     }
 
+    public function sponsors()
+    {
+        return $this->belongsToMany(Sponsor::class);
+    }
+
+    public function partners()
+    {
+        return $this->belongsToMany(Partner::class);
+    }
 }
