@@ -19,7 +19,7 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = Event::orderBy('id','ASC')->paginate(6);
+        $events = Event::orderBy('id','ASC')->paginate(6);
         $value=($request->input('page',1)-1)*6;
         return view('events.list',compact('events'))->with('i',$value);
     }
@@ -170,6 +170,6 @@ class EventController extends Controller
     public function destroy($id)
     {
         Event::find($id)->delete();
-        return redirect()->route('events.index')->with('success', 'Evenimentul a fost șters cu succes!')ș
+        return redirect()->route('events.index')->with('success', 'Evenimentul a fost șters cu succes!');
     }
 }
