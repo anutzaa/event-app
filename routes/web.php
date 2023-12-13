@@ -19,10 +19,18 @@ use App\Http\Controllers\HomeController;
 
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/', [EventController::class, 'index']);
-    Route::resource('tasks', EventController::class);
+    Route::resource('events', EventController::class);
 });
+
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/admin', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+});
+
 
 Route::patch('update-cart', [TicketController::class, 'update']);
 Route::delete('remove-from-cart', [TicketController::class, 'remove']);
