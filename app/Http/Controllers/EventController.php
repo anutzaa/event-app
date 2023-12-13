@@ -19,8 +19,8 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = Event::orderBy('id','ASC')->paginate(5);
-        $value=($request->input('page',1)-1)*5;
+        $tasks = Event::orderBy('id','ASC')->paginate(6);
+        $value=($request->input('page',1)-1)*6;
         return view('events.list',compact('events'))->with('i',$value);
     }
 
