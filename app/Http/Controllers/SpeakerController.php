@@ -10,7 +10,7 @@ class SpeakerController extends Controller
      //Display a listing of the resource.
     public function index(Request $request)
     {
-        $speaker = Speaker::orderBy('name', 'ASC')->paginate(9);
+        $speakers = Speaker::orderBy('name', 'ASC')->paginate(9);
         $value = ($request->input('page', 1)-1)*9;
         return view('speakers.list', compact('speakers'))->with('i', $value);
     }
@@ -31,7 +31,7 @@ class SpeakerController extends Controller
                                    'phone' => 'required',
                                    'address' => 'required',
             ]);
-        // create new task
+        // create new speaker
         Speaker::create($request->all());
         return redirect()->route('speakers.index')->with('success', 'Speakerul a fost adăugat cu succes!');
     }
