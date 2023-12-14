@@ -52,6 +52,9 @@
         </tr>
         </tfoot>
     </table>
+    <form method="post" action="checkout.blade.php">
+        <button>Plătește</button>
+    </form>
 
     @section('scripts')
         <script type="text/javascript">
