@@ -31,7 +31,6 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     })->name('dashboard');
 });
 
-
 Route::patch('update-cart', [TicketController::class, 'update']);
 Route::delete('remove-from-cart', [TicketController::class, 'remove']);
 

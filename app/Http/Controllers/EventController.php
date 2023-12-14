@@ -19,9 +19,9 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $events = Event::orderBy('id','ASC')->paginate(6);
-        $value=($request->input('page',1)-1)*6;
-        return view('events.list',compact('events'))->with('i',$value);
+        $events = Event::orderBy('id', 'ASC')->paginate(6);
+        $value = ($request->input('page', 1) - 1) * 6;
+        return view('events.list', compact('events'))->with('i', $value);
     }
 
     /**
@@ -37,7 +37,7 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     // ...
@@ -85,14 +85,11 @@ class EventController extends Controller
         return redirect()->route('events.index')->with('success', 'Evenimentul a fost adăugat cu succes!');
     }
 
-// ...
-
-
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -104,7 +101,7 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -116,8 +113,8 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
 
@@ -153,7 +150,7 @@ class EventController extends Controller
             'contact_id' => $contact->id,
         ]);
 
-// Update Speakers, Sponsors, and Partners relationships
+        // Update Speakers, Sponsors, and Partners relationships
         $event->speakers()->sync($request->input('speakers'));
         $event->sponsors()->sync($request->input('sponsors'));
         $event->partners()->sync($request->input('partners'));
@@ -164,7 +161,7 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

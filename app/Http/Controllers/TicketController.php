@@ -15,7 +15,7 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::all();
-        return view('ticket', compact('tickets'));
+        return view('tickets.list', compact('tickets'));
     }
 
     public function cart()
