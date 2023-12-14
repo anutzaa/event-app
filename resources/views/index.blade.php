@@ -9,7 +9,7 @@
     <form method="post" action="checkout.blade.php">
     <p>Bilet</p>
     <p><strong>10 ron</strong></p>
-    <button>Plateste</button>
+    <button>Plătește</button>
     </form>
 </body>
 </html>

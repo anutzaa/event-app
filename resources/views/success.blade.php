@@ -4,6 +4,6 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <h1>Multumim pentru tranzactionare!</h1>
+    <h1>Mulțumim pentru achiziție!</h1>
 </body>
 </html>
