@@ -32,7 +32,6 @@ class ContactController extends Controller
             'email' => 'required',
             'phone' => 'required',
         ]);
-        // create new contact
         Contact::create($request->all());
         return redirect()->route('contacts.index')->with('success', 'Contactul a fost adăugat cu succes!');
     }
