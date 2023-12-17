@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ticket;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+
 
 class TicketController extends Controller
 {
@@ -97,4 +100,82 @@ class TicketController extends Controller
             session()->flash('success', 'Bilet șters cu succes!');
         }
     }
+
+    /**
+     * Create a checkout session for Stripe.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     */
+    public function checkout(Request $request)
+    {
+        // Retrieve the cart data from the session or however you store it
+        $cart = session()->get('cart');
+
+        // Check if the cart is empty
+        if (empty($cart)) {
+            return response()->json(['error' => 'Cart is empty'], 400);
+        }
+
+        try {
+            // Set your Stripe secret key
+            Stripe::setApiKey(config('services.stripe.secret'));
+
+            // Calculate the total amount based on your cart data
+            $totalAmount = $this->calculateTotalAmount($cart);
+
+            // Check if the total amount is valid
+            if ($totalAmount <= 0) {
+                return response()->json(['error' => 'Invalid total amount'], 400);
+            }
+
+            // Create a Stripe Checkout session
+            $checkout_session = Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => $this->prepareLineItems($cart),
+                'mode' => 'payment',
+                'success_url' => route('checkout.success'),
+                'cancel_url' => route('cart'), // Redirect to cart if the user cancels
+            ]);
+
+            // Return the session ID in JSON format
+            return response()->json(['id' => $checkout_session->id]);
+        } catch (\Exception $e) {
+            // Handle exceptions (e.g., Stripe API errors)
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    // Other existing methods...
+
+    private function calculateTotalAmount($cart)
+    {
+        // Implement your logic to calculate the total amount from the cart data
+        // ...
+
+        return 1000; // Replace with your logic
+    }
+
+    private function prepareLineItems($cart)
+    {
+        // Implement your logic to prepare line items for the Stripe Checkout session
+        // ...
+
+        return [
+            [
+                'price_data' => [
+                    'currency' => 'usd', // Set your currency code here
+                    'product_data' => [
+                        'name' => 'Product Name',
+                    ],
+                    'unit_amount' => 1000, // Set your unit amount here
+                ],
+                'quantity' => 1, // Set the quantity based on your cart data
+            ],
+        ];
+    }
+
+    // Other existing methods...
 }
+

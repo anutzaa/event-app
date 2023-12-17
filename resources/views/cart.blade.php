@@ -52,10 +52,7 @@
         </tr>
         </tfoot>
     </table>
-    <form method="post" action="checkout.blade.php">
-        <button>Plătește</button>
-    </form>
-
+    <a href="{{ route('checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
     @section('scripts')
         <script type="text/javascript">
             $(".update-cart").click(function (e) {
