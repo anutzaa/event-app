@@ -165,7 +165,7 @@ class TicketController extends Controller
         return [
             [
                 'price_data' => [
-                    'currency' => 'usd', // Set your currency code here
+                    'currency' => 'RON', // Set your currency code here
                     'product_data' => [
                         'name' => 'Product Name',
                     ],
