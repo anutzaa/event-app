@@ -175,7 +175,11 @@ class TicketController extends Controller
             ],
         ];
     }
-
+    public function createTicket()
+    {
+        // Add any necessary logic here if needed
+        return view('events.create');
+    }
     // Other existing methods...
 }
 

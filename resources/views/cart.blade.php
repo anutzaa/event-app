@@ -52,6 +52,13 @@
         </tr>
         </tfoot>
     </table>
+    <div class="text-right mb-3">
+        <a href="{{ route('events.create') }}" class="btn btn-success">Adaugă Eveniment Nou</a>
+    </div>
+    <table id="cart" class="table table-hover table-condensed">
+        <!-- Existing table code goes here -->
+    </table>
+        <!-- Existing scripts go here -->
     <a href="{{ route('checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
     @section('scripts')
         <script type="text/javascript">

@@ -25,8 +25,15 @@ Route::delete('remove-from-cart', [TicketController::class, 'destroy']);
 Route::post('/checkout', [TicketController::class, 'checkout'])->name('checkout.process');
 Route::get('/checkout', [TicketController::class, 'checkout'])->name('checkout');
 Route::get('/success', [TicketController::class, 'success'])->name('checkout.success');
-Route::get('/cart', [TicketController::class, 'cart'])->name('cart');
 
+
+
+Route::get('/events/create', [TicketController::class, 'createTicket'])->name('events.create');
+
+
+
+
+Route::get('/cart', [TicketController::class, 'cart'])->name('cart');
 
 Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');

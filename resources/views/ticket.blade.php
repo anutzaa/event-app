@@ -12,7 +12,7 @@
                             <!--p>{{ Str::limit(strtolower($ticket->description), 50) }}</--p-->
                             <p><strong>Bilete rămase: </strong>{{ Str::limit(strtolower($ticket->available), 50) }}</p>
                             <p class="btn-holder"><a href="{{ url('add-to-cart/'.$ticket->id) }}" class="btn btn-warning btn-block text-center"
-                                                     role="button">Adaugă în coș</a> </p>
+                                <a href="{{ route('events.create') }}" class="btn btn-warning btn-block text-center" role="button">Adaugă în coș</a>
                         </div>
                     </div>
                 </div>

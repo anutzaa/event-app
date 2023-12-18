@@ -31,8 +31,12 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('events.create');
+        // Pregătește datele necesare pentru pagina, dacă este cazul
+        $contacts = Contact::all(); // Presupunând că ai un model Contact
+
+        return view('events.create', compact('contacts'));
     }
+
 
     /**
      * Store a newly created resource in storage.
