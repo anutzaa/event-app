@@ -7,40 +7,36 @@
     @endif
     <div class="panel panel-default">
         <div class="panel-heading">
-            Catalogul de evenimente
+            Catalogul de contacte
         </div>
         <div class="panel-body">
             <div class="form-group">
                 <div class="pull-right">
-                    <a href="/events/create" class="btn btn-default">Adaugă un eveniment nou</a>
+                    <a href="/contacts/create" class="btn btn-default">Adaugă un contact nou</a>
                 </div>
             </div>
             <table class="table table-bordered table-stripped">
                 <tr>
                     <th width="20">ID</th>
-                    <th>Titlu</th>
-                    <th>Descriere</th>
-                    <th>Data</th>
-                    <th>Ora</th>
-                    <th>Locația</th>
-                    <th>Contact</th>
+                    <th>Nume</th>
+                    <th>Prenume</th>
+                    <th>Email</th>
+                    <th>Telefon</th>
                     <th width="300">Actiune</th>
                 </tr>
-                @if (count($events) > 0)
-                    @foreach ($events as $key => $event)
+                @if (count($contacts) > 0)
+                    @foreach ($contacts as $key => $contact)
                         <tr>
                             <td>{{ ++$i }}</td>
-                            <td>{{ $event->title }}</td>
-                            <td>{{ $event->description }}</td>
-                            <td>{{ $event->date }}</td>
-                            <td>{{ $event->time }}</td>
-                            <td>{{ $event->location }}</td>
-                            <td>{{ $event->contact }}</td>
+                            <td>{{ $contact->surname }}</td>
+                            <td>{{ $contact->name }}</td>
+                            <td>{{ $contact->email }}</td>
+                            <td>{{ $contact->phone }}</td>
                             <td>
-                                <a class="btn btn-success" href="{{route('events.show',$event->id) }}">Vizualizare</a>
-                                <a class="btn btn-primary" href="{{route('$events.edit',$event->id) }}">Modificare</a>
+                                <a class="btn btn-success" href="{{route('contacts.show',$contact->id) }}">Vizualizare</a>
+                                <a class="btn btn-primary" href="{{route('contacts.edit',$contact->id) }}">Modificare</a>
                                 {{ Form::open(['method' => 'DELETE','route' =>
-                               ['$events.destroy', $event->id],'style'=>'display:inline']) }}
+                               ['contacts.destroy', $contact->id],'style'=>'display:inline']) }}
                                 {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
                                 {{ Form::close() }}
                             </td>
@@ -48,11 +44,11 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="4">Nu există evenimente în catalog!</td>
+                        <td colspan="4">Nu există contacte în catalog!</td>
                     </tr>
                 @endif
             </table>
-            {{$events->render()}}
+            {{$contacts->render()}}
         </div>
     </div>
 @endsection

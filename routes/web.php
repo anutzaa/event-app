@@ -30,9 +30,6 @@ Route::get('/success', [TicketController::class, 'success'])->name('checkout.suc
 
 Route::get('/events/create', [TicketController::class, 'createTicket'])->name('events.create');
 
-
-
-
 Route::get('/cart', [TicketController::class, 'cart'])->name('cart');
 
 Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');

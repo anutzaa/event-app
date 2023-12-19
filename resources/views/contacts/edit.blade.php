@@ -13,34 +13,26 @@
                     </ul>
                 </div>
             @endif
-            {!! Form::model($event, ['method' => 'PATCH','route' => ['events.update', $event->id]]) !!}
+            {!! Form::model($contact, ['method' => 'PATCH','route' => ['contacts.update', $contact->id]]) !!}
                 <div class="form-group">
-                    <label for="title">Titlu</label>
-                    <input type="text" name="titlu" class="form-control" value="{{$event->title }}">
+                    <label for="surname">Nume:</label>
+                    <input type="text" name="surname" class="form-control" value="{{$contact->surname }}">
                 </div>
                 <div class="form-group">
-                    <label for="description">Descriere</label>
-                    <textarea name="description" class="form-control" rows="3">{{ $event->description }}</textarea>
+                    <label for="name">Prenume:</label>
+                    <input type="text" name="name" class="form-control" value="{{$contact->name }}">
                 </div>
                 <div class="form-group">
-                    <label for="date">Data</label>
-                    <input type="date" name="date" class="form-control" value="{{$event->date }}">
+                    <label for="email">Email:</label>
+                    <input type="text" name="email" class="form-control" value="{{$contact->email }}">
                 </div>
                 <div class="form-group">
-                    <label for="time">Ora</label>
-                    <input type="time" name="time" class="form-control" value="{{$event->time }}">
-                </div>
-                <div class="form-group">
-                    <label for="location">Locația</label>
-                    <input type="text" name="location" class="form-control" value="{{$event->location }}">
-                </div>
-                <div class="form-group">
-                    <label for="contact">Contact</label>
-                    <input type="text" name="contact" class="form-control" value="{{$event->contact }}">
+                    <label for="phone">Telefon:</label>
+                    <input type="text" name="phone" class="form-control" value="{{$contact->phone }}">
                 </div>
             <div class="form-group">
                 <input type="submit" value="Salvează modificările" class="btn btn-info">
-                <a href="{{route('events.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{route('contacts.index') }}" class="btn btn-default">Anulează</a>
             </div>
             {!! Form::close() !!}
         </div>
