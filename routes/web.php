@@ -6,6 +6,8 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SpeakerController;
+use App\Http\Controllers\SponsorController;
+use App\Http\Controllers\PartnerController;
 
 Auth::routes();
 
@@ -38,3 +40,7 @@ Route::resource('contacts', ContactController::class);
 Route::resource('speakers', SpeakerController::class);
 Route::get('/speakers/create', [SpeakerController::class, 'create'])->name('speakers.create');
 Route::post('/speakers', [SpeakerController::class, 'store'])->name('speakers.store');
+
+Route::resource('sponsors', SponsorController::class);
+Route::get('/sponsors/create', [SponsorController::class, 'create'])->name('sponsors.create');
+Route::post('/sponsors', [SponsorController::class, 'store'])->name('sponsors.store');
