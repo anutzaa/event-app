@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Event; // Add this line
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $events = Event::orderBy('id', 'ASC')->paginate(6);
+        return view('home', compact('events'));
     }
 }

@@ -1,20 +1,27 @@
+
 @extends('layouts.app')
+
+@section('title', 'events')
+
 @section('content')
-    <div class="container">
+    <div class="container products">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Panou de control</div>
-                    <div class="panel-body">
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-                        <div> <a href="{{URL::to('events') }}"> Afișează toate evenimentele</a> </div>
+            @foreach($events as $event)
+                <div class="col-xs-18 col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h4>{{ $event->title }}</h4>
+                            <p>{{ Illuminate\Support\Str::limit(strtolower($event->description), 50) }}</p>
+                            <p><strong>Data și Ora: </strong>{{ $event->date }} - {{ $event->time }}</p>
+                            <p><strong>Locație: </strong>{{ $event->location }}</p>
+                            <p class="btn-holder">
+                                <a href="{{ route('events.show', $event->id) }}" class="btn btn-primary btn-block text-center" role="button">Detalii Eveniment</a>
+                                <a href="{{ url('add-to-cart/'.$event->id) }}" class="btn btn-warning btn-block text-center" role="button">Cumpără Bilet</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            @endforeach
+        </div><!-- End row -->
     </div>
 @endsection

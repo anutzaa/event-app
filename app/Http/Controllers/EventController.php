@@ -19,8 +19,13 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
+        // Fetch events from the database
         $events = Event::orderBy('id', 'ASC')->paginate(6);
+
+        // Calculate the value for pagination
         $value = ($request->input('page', 1) - 1) * 6;
+
+        // Pass the events to the view
         return view('events.list', compact('events'))->with('i', $value);
     }
 
@@ -32,7 +37,7 @@ class EventController extends Controller
     public function create()
     {
         // Pregătește datele necesare pentru pagina, dacă este cazul
-        $contacts = Contact::all(); // Presupunând că ai un model Contact
+        $$contacts = Contact::all(); // Fetch contacts from the database
 
         return view('events.create', compact('contacts'));
     }
@@ -48,7 +53,7 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'title' => 'required',
             'description' => 'required',
             'date' => 'required',
@@ -56,11 +61,23 @@ class EventController extends Controller
             'location' => 'required',
             'contact_name' => 'required',
             'contact_surname' => 'required',
-            'speakers' => 'required|array',
-            'sponsors' => 'required|array',
-            'partners' => 'required|array',
+            'speakers' => 'array',
+            'sponsors' => 'array',
+            'partners' => 'array',
         ]);
 
+        $event = new Event([
+            'title' => $request->get('title'),
+            'description' => $request->get('description'),
+            'date' => $request->get('date'),
+            'time' => $request->get('time'),
+            'location' => $request->get('location'),
+            'contact_id' => $request->get('contact_id'),
+            'speakers' => $request->get('speakers'),
+            'sponsors' => $request->get('sponsors'),
+            'partners' => $request->get('partners'),
+        ]);
+        $event->save();
         // Find or create Contact
         $contact = Contact::firstOrCreate([
             'name' => $request->input('contact_name'),
@@ -161,8 +178,8 @@ class EventController extends Controller
         $event->speakers()->sync($request->input('speakers'));
         $event->sponsors()->sync($request->input('sponsors'));
         $event->partners()->sync($request->input('partners'));
+        return redirect()->route('events.index')->with('success', 'Evenimentul a fost actualizat cu succes!');
 
-        return redirect()->route('events.index')->with('success', 'Evenimentul a fost adăugat cu succes!')->with('contacts', $contacts);
     }
 
     /**

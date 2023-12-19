@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\HomeController;
@@ -8,33 +7,38 @@ use App\Http\Controllers\ContactController;
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::group(['middleware' => 'auth'], function(){
+// Authenticated routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
     Route::get('/', [EventController::class, 'index']);
     Route::resource('events', EventController::class);
+
+    // Other routes go here
+    Route::patch('update-cart', [TicketController::class, 'update']);
+    Route::delete('remove-from-cart', [TicketController::class, 'destroy']);
+    // ...
+
+    Route::get('/cart', [TicketController::class, 'cart'])->name('cart');
+
+    Route::post('/checkout', [TicketController::class, 'checkout'])->name('checkout');
+    Route::get('/contact/create', [ContactController::class, 'create'])->name('contact.create');
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+    Route::resource('contact', ContactController::class);
 });
 
-Route::patch('update-cart', [TicketController::class, 'update']);
-Route::delete('remove-from-cart', [TicketController::class, 'destroy']);
+// Unauthenticated routes
+Route::middleware(['guest'])->group(function () {
+    Route::get('/', function () {
+        return redirect('/login');
+    });
 
-Route::get('/', [TicketController::class, 'index']);
-Route::get('cart', [TicketController::class, 'cart']);
-Route::get('add-to-cart/{id}', [TicketController::class, 'addToCart']);
-Route::patch('update-cart', [TicketController::class, 'update']);
-Route::delete('remove-from-cart', [TicketController::class, 'destroy']);
-Route::post('/checkout', [TicketController::class, 'checkout'])->name('checkout.process');
-Route::get('/checkout', [TicketController::class, 'checkout'])->name('checkout');
-Route::get('/success', [TicketController::class, 'success'])->name('checkout.success');
+    // Other guest routes go here
+});
 
-
-
-Route::get('/events/create', [TicketController::class, 'createTicket'])->name('events.create');
-
-
-
-
-Route::get('/cart', [TicketController::class, 'cart'])->name('cart');
-
-Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
-Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
-Route::resource('contacts', ContactController::class);
+// Catch-all route
+Route::fallback(function () {
+    abort(404);
+});
