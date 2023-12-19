@@ -44,3 +44,7 @@ Route::post('/speakers', [SpeakerController::class, 'store'])->name('speakers.st
 Route::resource('sponsors', SponsorController::class);
 Route::get('/sponsors/create', [SponsorController::class, 'create'])->name('sponsors.create');
 Route::post('/sponsors', [SponsorController::class, 'store'])->name('sponsors.store');
+
+Route::resource('partners', PartnerController::class);
+Route::get('/partners/create', [PartnerController::class, 'create'])->name('partners.create');
+Route::post('/partners', [PartnerController::class, 'store'])->name('partners.store');
