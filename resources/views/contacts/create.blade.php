@@ -15,15 +15,15 @@
             @endif
             {{ Form::open(array('route' => 'contacts.store','method'=>'POST')) }}
                 <div class="form-group">
-                    <label for="name">Nume:</label>
-                    <input type="text" name="name" class="form-control"
-                           value="{{old('name') }}">
+                    <label for="surname">Nume:</label>
+                    <input type="text" name="surname" class="form-control"
+                           value="{{old('surname') }}">
                 </div>
 
                 <div class="form-group">
-                    <label for="surname">Prenume:</label>
-                    <input type="text" name="surname" class="form-control"
-                           value="{{old('surname') }}">
+                    <label for="name">Prenume:</label>
+                    <input type="text" name="name" class="form-control"
+                           value="{{old('name') }}">
                 </div>
 
                 <div class="form-group">

@@ -3,29 +3,23 @@
 @section('content')
     <div class="panel panel-default">
         <div class="panel-heading">
-            Vizualizare eveniment
+            <h1>Vizualizare contact</h1>
         </div>
         <div class="panel-body">
             <div class="pull-right">
-                <a class="btn btn-default" href="{{ route('events.index') }}">Înapoi</a>
+                <a class="btn btn-default" href="{{ route('contacts.index') }}">Înapoi</a>
             </div>
             <div class="form-group">
-                <strong>Titlul evenimentului: </strong> {{ $event->title }}
+                <strong>Nume: </strong> {{ $contact->surname }}
             </div>
             <div class="form-group">
-                <strong>Descriere: </strong> {{ $event->description }}
+                <strong>Prenume: </strong> {{ $contact->name }}
             </div>
             <div class="form-group">
-                <strong>Data: </strong> {{ $event->date }}
+                <strong>Email: </strong> {{ $contact->email }}
             </div>
             <div class="form-group">
-                <strong>Ora: </strong> {{ $event->time }}
-            </div>
-            <div class="form-group">
-                <strong>Locația: </strong> {{ $event->location }}
-            </div>
-            <div class="form-group">
-                <strong>Contact: </strong> {{ $event->contact }}
+                <strong>Telefon: </strong> {{ $contact->phone }}
             </div>
         </div>
     </div>
