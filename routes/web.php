@@ -17,7 +17,10 @@ Route::group(['middleware' => 'auth'], function(){
 Route::patch('update-cart', [TicketController::class, 'update']);
 Route::delete('remove-from-cart', [TicketController::class, 'destroy']);
 
-Route::get('/', [TicketController::class, 'index']);
+//prima pagina//
+Route::get('/', [HomeController::class, 'index']);
+
+//pagini ticket//
 Route::get('cart', [TicketController::class, 'cart']);
 Route::get('add-to-cart/{id}', [TicketController::class, 'addToCart']);
 Route::patch('update-cart', [TicketController::class, 'update']);
@@ -25,8 +28,6 @@ Route::delete('remove-from-cart', [TicketController::class, 'destroy']);
 Route::post('/checkout', [TicketController::class, 'checkout'])->name('checkout.process');
 Route::get('/checkout', [TicketController::class, 'checkout'])->name('checkout');
 Route::get('/success', [TicketController::class, 'success'])->name('checkout.success');
-
-
 
 Route::get('/events/create', [TicketController::class, 'createTicket'])->name('events.create');
 
