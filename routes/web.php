@@ -5,6 +5,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SpeakerController;
 
 Auth::routes();
 
@@ -26,8 +27,6 @@ Route::post('/checkout', [TicketController::class, 'checkout'])->name('checkout.
 Route::get('/checkout', [TicketController::class, 'checkout'])->name('checkout');
 Route::get('/success', [TicketController::class, 'success'])->name('checkout.success');
 
-
-
 Route::get('/events/create', [TicketController::class, 'createTicket'])->name('events.create');
 
 Route::get('/cart', [TicketController::class, 'cart'])->name('cart');
@@ -35,3 +34,7 @@ Route::get('/cart', [TicketController::class, 'cart'])->name('cart');
 Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
 Route::resource('contacts', ContactController::class);
+
+Route::resource('speakers', SpeakerController::class);
+Route::get('/speakers/create', [SpeakerController::class, 'create'])->name('speakers.create');
+Route::post('/speakers', [SpeakerController::class, 'store'])->name('speakers.store');
