@@ -4,6 +4,9 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SpeakerController;
+use App\Http\Controllers\SponsorController;
+use App\Http\Controllers\PartnerController;
 
 Auth::routes();
 
@@ -34,11 +37,4 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/', function () {
         return redirect('/login');
     });
-
-    // Other guest routes go here
-});
-
-// Catch-all route
-Route::fallback(function () {
-    abort(404);
 });

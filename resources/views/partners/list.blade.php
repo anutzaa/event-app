@@ -7,36 +7,36 @@
     @endif
     <div class="panel panel-default">
         <div class="panel-heading">
-            Catalogul de contacte
+            <h1>Catalogul de parteneri</h1>
         </div>
         <div class="panel-body">
             <div class="form-group">
                 <div class="pull-right">
-                    <a href="/contacts/create" class="btn btn-default">Adaugă un contact nou</a>
+                    <a href="/partners/create" class="btn btn-default">Adaugă un partener nou</a>
                 </div>
             </div>
             <table class="table table-bordered table-stripped">
                 <tr>
                     <th width="20">ID</th>
                     <th>Nume</th>
-                    <th>Prenume</th>
                     <th>Email</th>
                     <th>Telefon</th>
+                    <th>Adresa</th>
                     <th width="300">Actiune</th>
                 </tr>
-                @if (count($contacts) > 0)
-                    @foreach ($contacts as $key => $contact)
+                @if (count($partners) > 0)
+                    @foreach ($partners as $key => $partner)
                         <tr>
                             <td>{{ ++$i }}</td>
-                            <td>{{ $contact->surname }}</td>
-                            <td>{{ $contact->name }}</td>
-                            <td>{{ $contact->email }}</td>
-                            <td>{{ $contact->phone }}</td>
+                            <td>{{ $partner->name }}</td>
+                            <td>{{ $partner->email }}</td>
+                            <td>{{ $partner->phone }}</td>
+                            <td>{{ $partner->address }}</td>
                             <td>
-                                <a class="btn btn-success" href="{{route('contacts.show',$contact->id) }}">Vizualizare</a>
-                                <a class="btn btn-primary" href="{{route('contacts.edit',$contact->id) }}">Modificare</a>
+                                <a class="btn btn-success" href="{{route('partners.show',$partner->id) }}">Vizualizare</a>
+                                <a class="btn btn-primary" href="{{route('partners.edit',$partner->id) }}">Modificare</a>
                                 {{ Form::open(['method' => 'DELETE','route' =>
-                               ['contacts.destroy', $contact->id],'style'=>'display:inline']) }}
+                               ['partners.destroy', $partner->id],'style'=>'display:inline']) }}
                                 {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
                                 {{ Form::close() }}
                             </td>
@@ -44,11 +44,11 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="4">Nu există contacte în catalog!</td>
+                        <td colspan="4">Nu există parteneri în catalog!</td>
                     </tr>
                 @endif
             </table>
-            {{$contacts->render()}}
+            {{$partners->render()}}
         </div>
     </div>
 @endsection

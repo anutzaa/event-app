@@ -7,36 +7,36 @@
     @endif
     <div class="panel panel-default">
         <div class="panel-heading">
-            Catalogul de contacte
+            <h1>Catalogul de speakeri</h1>
         </div>
         <div class="panel-body">
             <div class="form-group">
                 <div class="pull-right">
-                    <a href="/contacts/create" class="btn btn-default">Adaugă un contact nou</a>
+                    <a href="/speakers/create" class="btn btn-default">Adaugă un speaker nou</a>
                 </div>
             </div>
             <table class="table table-bordered table-stripped">
                 <tr>
                     <th width="20">ID</th>
                     <th>Nume</th>
-                    <th>Prenume</th>
                     <th>Email</th>
                     <th>Telefon</th>
+                    <th>Adresa</th>
                     <th width="300">Actiune</th>
                 </tr>
-                @if (count($contacts) > 0)
-                    @foreach ($contacts as $key => $contact)
+                @if (count($speakers) > 0)
+                    @foreach ($speakers as $key => $speaker)
                         <tr>
                             <td>{{ ++$i }}</td>
-                            <td>{{ $contact->surname }}</td>
-                            <td>{{ $contact->name }}</td>
-                            <td>{{ $contact->email }}</td>
-                            <td>{{ $contact->phone }}</td>
+                            <td>{{ $speaker->name }}</td>
+                            <td>{{ $speaker->email }}</td>
+                            <td>{{ $speaker->phone }}</td>
+                            <td>{{ $speaker->address }}</td>
                             <td>
-                                <a class="btn btn-success" href="{{route('contacts.show',$contact->id) }}">Vizualizare</a>
-                                <a class="btn btn-primary" href="{{route('contacts.edit',$contact->id) }}">Modificare</a>
+                                <a class="btn btn-success" href="{{route('speakers.show',$speaker->id) }}">Vizualizare</a>
+                                <a class="btn btn-primary" href="{{route('speakers.edit',$speaker->id) }}">Modificare</a>
                                 {{ Form::open(['method' => 'DELETE','route' =>
-                               ['contacts.destroy', $contact->id],'style'=>'display:inline']) }}
+                               ['speakers.destroy', $speaker->id],'style'=>'display:inline']) }}
                                 {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
                                 {{ Form::close() }}
                             </td>
@@ -44,11 +44,11 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="4">Nu există contacte în catalog!</td>
+                        <td colspan="4">Nu există speakeri în catalog!</td>
                     </tr>
                 @endif
             </table>
-            {{$contacts->render()}}
+            {{$speakers->render()}}
         </div>
     </div>
 @endsection

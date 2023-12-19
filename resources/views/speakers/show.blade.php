@@ -3,23 +3,23 @@
 @section('content')
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h1>Vizualizare contact</h1>
+            <h1>Vizualizare speaker</h1>
         </div>
         <div class="panel-body">
             <div class="pull-right">
-                <a class="btn btn-default" href="{{ route('contacts.index') }}">Înapoi</a>
+                <a class="btn btn-default" href="{{ route('speakers.index') }}">Înapoi</a>
             </div>
             <div class="form-group">
-                <strong>Nume: </strong> {{ $contact->surname }}
+                <strong>Nume: </strong> {{ $speaker->name }}
             </div>
             <div class="form-group">
-                <strong>Prenume: </strong> {{ $contact->name }}
+                <strong>Email: </strong> {{ $speaker->email }}
             </div>
             <div class="form-group">
-                <strong>Email: </strong> {{ $contact->email }}
+                <strong>Telefon: </strong> {{ $speaker->phone }}
             </div>
             <div class="form-group">
-                <strong>Telefon: </strong> {{ $contact->phone }}
+                <strong>Adresa: </strong> {{ $speaker->address }}
             </div>
         </div>
     </div>
