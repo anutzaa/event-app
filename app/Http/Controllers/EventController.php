@@ -37,52 +37,40 @@ class EventController extends Controller
     public function create()
     {
         // Pregătește datele necesare pentru pagina, dacă este cazul
-        $$contacts = Contact::all(); // Fetch contacts from the database
+        $contacts = Contact::all();
+        $speakers = Speaker::all();
+        $sponsors = Sponsor::all();
+        $partners = Partner::all();
 
-        return view('events.create', compact('contacts'));
+        return view('events.create', compact('contacts', 'speakers', 'sponsors', 'partners'));
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    // ...
-
     public function store(Request $request)
     {
-        $request->validate([
+        $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
             'date' => 'required',
             'time' => 'required',
             'location' => 'required',
-            'contact_name' => 'required',
-            'contact_surname' => 'required',
-            'speakers' => 'array',
-            'sponsors' => 'array',
-            'partners' => 'array',
+            'contact_id' => 'required|exists:contacts,id',
+            'speaker_id' => 'exists:speakers,id',
+            'sponsor_id' => 'exists:sponsors,id',
+            'partner_id' => 'exists:partners,id',
         ]);
 
-        $event = new Event([
-            'title' => $request->get('title'),
-            'description' => $request->get('description'),
-            'date' => $request->get('date'),
-            'time' => $request->get('time'),
-            'location' => $request->get('location'),
-            'contact_id' => $request->get('contact_id'),
-            'speakers' => $request->get('speakers'),
-            'sponsors' => $request->get('sponsors'),
-            'partners' => $request->get('partners'),
-        ]);
-        $event->save();
-        // Find or create Contact
-        $contact = Contact::firstOrCreate([
-            'name' => $request->input('contact_name'),
-            'surname' => $request->input('contact_surname'),
-        ]);
+        // Find Contact
+        $contact = Contact::find($request->input('contact_id'));
+
+        // Find Speaker
+        $speaker = Speaker::find($request->input('speaker_id'));
+
+        // Find Sponsor
+        $sponsor = Sponsor::find($request->input('sponsor_id'));
+
+        // Find Partner
+        $partner = Partner::find($request->input('partner_id'));
 
         // Create Event
         $event = Event::create([
@@ -92,55 +80,33 @@ class EventController extends Controller
             'time' => $request->input('time'),
             'location' => $request->input('location'),
             'contact_id' => $contact->id,
+            'speaker_id' => $speaker ? $speaker->id : null,
+            'sponsor_id' => $sponsor ? $sponsor->id : null,
+            'partner_id' => $partner ? $partner->id : null,
         ]);
-
-        // Attach Speakers to Event
-        $event->speakers()->sync($request->input('speakers'));
-
-        // Attach Sponsors to Event
-        $event->sponsors()->sync($request->input('sponsors'));
-
-        // Attach Partners to Event
-        $event->partners()->sync($request->input('partners'));
-
-        // Fetch contacts for the dropdown in the create form
-        $contacts = Contact::all(); // You can adjust this based on your needs
 
         return redirect()->route('events.index')->with('success', 'Evenimentul a fost adăugat cu succes!');
     }
 
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
+
     public function show($id)
     {
         $event = Event::find($id);
         return view('events.show', compact('event'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
     public function edit($id)
     {
         $event = Event::find($id);
-        return view('events.edit', compact('event'));
+        $contacts = Contact::all();
+        $speakers = Speaker::all();
+        $sponsors = Sponsor::all();
+        $partners = Partner::all();
+
+        return view('events.edit', compact('event', 'contacts', 'speakers', 'sponsors', 'partners'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
 
     public function update(Request $request, $id)
     {
@@ -150,44 +116,44 @@ class EventController extends Controller
             'date' => 'required',
             'time' => 'required',
             'location' => 'required',
-            'contact_name' => 'required',
-            'contact_surname' => 'required',
-            'speakers' => 'required|array',
-            'sponsors' => 'required|array',
-            'partners' => 'required|array',
+            'contact_id' => 'required',
+            'speaker_id' => 'required',
+            'sponsor_id' => 'required',
+            'partner_id' => 'required',
         ]);
 
-        // Find or create Contact
-        $contact = Contact::firstOrCreate([
-            'name' => $request->input('contact_name'),
-            'surname' => $request->input('contact_surname'),
-        ]);
+        // Find Contact
+        $contact = Contact::find($request->input('contact_id'));
+
+        // Find Speaker
+        $speaker = Speaker::find($request->input('speaker_id'));
+
+        // Find Sponsor
+        $sponsor = Sponsor::find($request->input('sponsor_id'));
+
+        // Find Partner
+        $partner = Partner::find($request->input('partner_id'));
 
         // Update Event
         $event = Event::find($id);
+
         $event->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'date' => $request->input('date'),
             'time' => $request->input('time'),
             'location' => $request->input('location'),
-            'contact_id' => $contact->id,
+            'contact_id' => $contact ? $contact->id : null,
+            'speaker_id' => $speaker ? $speaker->id : null,
+            'sponsor_id' => $sponsor ? $sponsor->id : null,
+            'partner_id' => $partner ? $partner->id : null,
         ]);
 
-        // Update Speakers, Sponsors, and Partners relationships
-        $event->speakers()->sync($request->input('speakers'));
-        $event->sponsors()->sync($request->input('sponsors'));
-        $event->partners()->sync($request->input('partners'));
         return redirect()->route('events.index')->with('success', 'Evenimentul a fost actualizat cu succes!');
-
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
+
+
     public function destroy($id)
     {
         Event::find($id)->delete();

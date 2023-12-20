@@ -10,8 +10,9 @@ class Sponsor extends Model
     use HasFactory;
     public $fillable = ['id', 'name', 'email', 'phone', 'address'];
 
-    public function _events()
+    public function events()
     {
-        return $this->belongsToMany(Event::class);
+        return $this->hasMany(Event::class);
     }
+
 }

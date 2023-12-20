@@ -26,13 +26,13 @@
             </div>
 
             <div class="form-group">
-                <label for="contact">Contact</label>
+                <label for="contact_id">Contact</label>
                 <div class="input-group mb-3">
-                    <select name="contact" class="form-control">
+                    <select name="contact_id" class="form-control">
                         <option value="">Selectează un contact</option>
                         @if(isset($contacts))
                             @foreach($contacts as $contact)
-                                <option value="{{ $contact->id }}">{{ $contact->name }} {{ $contact->surname }}</option>
+                                <option value="{{ $contact->id }}">{{ $contact->name }}</option>
                             @endforeach
                         @endif
                     </select>
@@ -44,90 +44,61 @@
 
 
             <div class="form-group">
-                <label for="speakers">Speakeri</label>
-                <div id="speakers-container">
-                    <div class="input-group mb-3">
-                        <input type="text" name="speakers[]" class="form-control" value="{{ old('speakers.0') }}">
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-info" onclick="addInput('speakers-container')">Adaugă</button>
-                            <button type="button" class="btn btn-danger" onclick="removeInput(this)">Șterge</button>
-                        </div>
+                <label for="speaker_id">Speaker</label>
+                <div class="input-group mb-3">
+                    <select name="speaker_id" class="form-control">
+                        <option value="">Selectează un speaker</option>
+                        @if(isset($speakers))
+                            @foreach($speakers as $speaker)
+                                <option value="{{ $speaker->id }}">{{ $speaker->name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                    <div class="input-group-append">
+                        <a href="{{ route('speakers.create') }}" class="btn btn-success">Adaugă speaker</a>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="sponsors">Sponsori</label>
-                <div id="sponsors-container">
-                    <div class="input-group mb-3">
-                        <input type="text" name="sponsors[]" class="form-control" value="{{ old('sponsors.0') }}">
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-info" onclick="addInput('sponsors-container')">Adaugă</button>
-                            <button type="button" class="btn btn-danger" onclick="removeInput(this)">Șterge</button>
-                        </div>
+                <label for="sponsor_id">Sponsor</label>
+                <div class="input-group mb-3">
+                    <select name="sponsor_id" class="form-control">
+                        <option value="">Selectează un sponsor</option>
+                        @if(isset($sponsors))
+                            @foreach($sponsors as $sponsor)
+                                <option value="{{ $sponsor->id }}">{{ $sponsor->name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                    <div class="input-group-append">
+                        <a href="{{ route('sponsors.create') }}" class="btn btn-success">Adaugă sponsor</a>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="partners">Parteneri</label>
-                <div id="partners-container">
-                    <div class="input-group mb-3">
-                        <input type="text" name="partners[]" class="form-control" value="{{ old('partners.0') }}">
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-info" onclick="addInput('partners-container')">Adaugă</button>
-                            <button type="button" class="btn btn-danger" onclick="removeInput(this)">Șterge</button>
-                        </div>
+                <label for="partner_id">Partener</label>
+                <div class="input-group mb-3">
+                    <select name="partner_id" class="form-control">
+                        <option value="">Selectează un partener</option>
+                        @if(isset($partners))
+                            @foreach($partners as $partner)
+                                <option value="{{ $partner->id }}">{{ $partner->name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                    <div class="input-group-append">
+                        <a href="{{ route('partners.create') }}" class="btn btn-success">Adaugă partener</a>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <input type="submit" value="Adaugă eveniment" class="btn btn-info">
-                <a href="{{ route('events.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('events.index') }}" class="btn btn-default">Anulează</a>
             </div>
             {{ Form::close() }}
         </div>
     </div>
-
-    <script>
-        function addInput(containerId) {
-            var container = document.getElementById(containerId);
-
-            // Create a new input element
-            var input = document.createElement('input');
-            input.type = 'text';
-            input.name = containerId.replace('-container', '') + '[]'; // Add [] to make it an array
-            input.className = 'form-control';
-
-            // Create a delete button
-            var deleteButton = document.createElement('button');
-            deleteButton.type = 'button';
-            deleteButton.className = 'btn btn-danger';
-            deleteButton.innerHTML = 'Șterge';
-            deleteButton.onclick = function() {
-                removeInput(this);
-            };
-
-            // Create a container for input and buttons
-            var inputContainer = document.createElement('div');
-            inputContainer.className = 'input-group mb-3';
-            inputContainer.appendChild(input);
-
-            // Append both buttons to the container
-            var buttonGroup = document.createElement('div');
-            buttonGroup.className = 'input-group-append';
-            buttonGroup.appendChild(deleteButton);
-
-            // Append the new input container to the main container
-            inputContainer.appendChild(buttonGroup);
-            container.appendChild(inputContainer);
-        }
-
-        function removeInput(button) {
-            // Get the parent container and remove it
-            var container = button.parentNode.parentNode;
-            container.parentNode.removeChild(container);
-        }
-    </script>
 @endsection

@@ -10,6 +10,11 @@ class Contact extends Model
 {
     use HasFactory;
 
-    public $fillable = ['id', 'surname', 'name', 'email', 'phone'];
+    public $fillable = ['id', 'name', 'email', 'phone'];
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 
 }

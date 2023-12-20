@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Event; // Add this line
+use App\Models\Event;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller
@@ -18,13 +18,15 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
     public function index()
     {
+        if (auth()->user()->user_type === 'Administrator') {
+            // If admin is logged in, redirect to admin dashboard
+            return view('admin.dashboard');
+        }
+
+        // If not admin, proceed with regular user logic
         $events = Event::orderBy('id', 'ASC')->paginate(6);
         return view('home', compact('events'));
     }

@@ -27,7 +27,6 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'surname' => 'required',
             'name' => 'required',
             'email' => 'required',
             'phone' => 'required',
@@ -57,7 +56,6 @@ class ContactController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'surname' => 'required',
             'name' => 'required',
             'email' => 'required',
             'phone' => 'required',

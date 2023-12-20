@@ -10,10 +10,7 @@
                 <a class="btn btn-default" href="{{ route('contacts.index') }}">Înapoi</a>
             </div>
             <div class="form-group">
-                <strong>Nume: </strong> {{ $contact->surname }}
-            </div>
-            <div class="form-group">
-                <strong>Prenume: </strong> {{ $contact->name }}
+                <strong>Nume: </strong> {{ $contact->name }}
             </div>
             <div class="form-group">
                 <strong>Email: </strong> {{ $contact->email }}

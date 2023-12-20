@@ -15,11 +15,7 @@
             @endif
             {!! Form::model($contact, ['method' => 'PATCH','route' => ['contacts.update', $contact->id]]) !!}
                 <div class="form-group">
-                    <label for="surname">Nume:</label>
-                    <input type="text" name="surname" class="form-control" value="{{$contact->surname }}">
-                </div>
-                <div class="form-group">
-                    <label for="name">Prenume:</label>
+                    <label for="name">Nume:</label>
                     <input type="text" name="name" class="form-control" value="{{$contact->name }}">
                 </div>
                 <div class="form-group">

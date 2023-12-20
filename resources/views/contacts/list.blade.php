@@ -19,7 +19,6 @@
                 <tr>
                     <th width="20">ID</th>
                     <th>Nume</th>
-                    <th>Prenume</th>
                     <th>Email</th>
                     <th>Telefon</th>
                     <th width="300">Actiune</th>
@@ -28,7 +27,6 @@
                     @foreach ($contacts as $key => $contact)
                         <tr>
                             <td>{{ ++$i }}</td>
-                            <td>{{ $contact->surname }}</td>
                             <td>{{ $contact->name }}</td>
                             <td>{{ $contact->email }}</td>
                             <td>{{ $contact->phone }}</td>

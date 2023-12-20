@@ -24,6 +24,9 @@
                     <th>Ora</th>
                     <th>Locația</th>
                     <th>Contact</th>
+                    <th>Speaker</th>
+                    <th>Sponsor</th>
+                    <th>Partener</th>
                     <th width="300">Actiune</th>
                 </tr>
                 @if (count($events) > 0)
@@ -35,12 +38,15 @@
                             <td>{{ $event->date }}</td>
                             <td>{{ $event->time }}</td>
                             <td>{{ $event->location }}</td>
-                            <td>{{ $event->contact }}</td>
+                            <td>{{ $event->contact->name }}</td>
+                            <td>{{ $event->speaker->name }}</td>
+                            <td>{{ $event->sponsor->name }}</td>
+                            <td>{{ $event->partner->name }}</td>
                             <td>
                                 <a class="btn btn-success" href="{{route('events.show',$event->id) }}">Vizualizare</a>
-                                <a class="btn btn-primary" href="{{route('$events.edit',$event->id) }}">Modificare</a>
+                                <a class="btn btn-primary" href="{{route('events.edit',$event->id) }}">Modificare</a>
                                 {{ Form::open(['method' => 'DELETE','route' =>
-                               ['$events.destroy', $event->id],'style'=>'display:inline']) }}
+                               ['events.destroy', $event->id],'style'=>'display:inline']) }}
                                 {{ Form::submit('Delete', ['class' => 'btn btn-danger']) }}
                                 {{ Form::close() }}
                             </td>

@@ -34,7 +34,7 @@ class LoginController extends Controller
     {
         if (Auth::user()->user_type == 'Administrator')
         {
-            return 'admin';  // admin dashboard path
+            return 'admin.dasboard';  // admin dashboard path
         } else {
             return 'home';  // member dashboard path
         }

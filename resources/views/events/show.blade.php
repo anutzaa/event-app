@@ -3,7 +3,7 @@
 @section('content')
     <div class="panel panel-default">
         <div class="panel-heading">
-            Vizualizare eveniment
+            <h1>Vizualizare eveniment</h1>
         </div>
         <div class="panel-body">
             <div class="pull-right">
@@ -25,7 +25,16 @@
                 <strong>Locația: </strong> {{ $event->location }}
             </div>
             <div class="form-group">
-                <strong>Contact: </strong> {{ $event->contact }}
+                <strong>Contact: </strong> {{ $event->contact->name }}
+            </div>
+            <div class="form-group">
+                <strong>Speaker: </strong> {{ $event->speaker->name }}
+            </div>
+            <div class="form-group">
+                <strong>Sponsor: </strong> {{ $event->sponsor->name }}
+            </div>
+            <div class="form-group">
+                <strong>Partener: </strong> {{ $event->partner->name }}
             </div>
         </div>
     </div>
