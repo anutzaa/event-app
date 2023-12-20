@@ -19,7 +19,6 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth', 'admin'], function () {
-
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::get('/events', [EventController::class, 'index']);

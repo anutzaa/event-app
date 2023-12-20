@@ -32,12 +32,7 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        if (Auth::user()->user_type == 'Administrator')
-        {
-            return 'admin.dasboard';  // admin dashboard path
-        } else {
-            return 'home';  // member dashboard path
-        }
+            return 'home';
     }
 
     /**
