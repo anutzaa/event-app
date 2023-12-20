@@ -151,17 +151,11 @@ class TicketController extends Controller
 
     private function calculateTotalAmount($cart)
     {
-        // Implement your logic to calculate the total amount from the cart data
-        // ...
-
         return 1000; // Replace with your logic
     }
 
     private function prepareLineItems($cart)
     {
-        // Implement your logic to prepare line items for the Stripe Checkout session
-        // ...
-
         return [
             [
                 'price_data' => [

@@ -46,20 +46,17 @@
             <td class="text-center"><strong>Total {{ $total }}</strong></td>
         </tr>
         <tr>
-            <td><a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continuare Cumparaturi</a></td>
+            <td><a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continuă cumpărăturile</a></td>
             <td colspan="2" class="hidden-xs"></td>
             <td class="hidden-xs text-center"><strong>Total ${{ $total }}</strong></td>
         </tr>
         </tfoot>
     </table>
-    <div class="text-right mb-3">
-        <a href="{{ route('events.create') }}" class="btn btn-success">Adaugă Eveniment Nou</a>
-    </div>
     <table id="cart" class="table table-hover table-condensed">
         <!-- Existing table code goes here -->
     </table>
         <!-- Existing scripts go here -->
-    <a href="{{ route('checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
+    <a href="{{ route('checkout') }}" class="btn btn-primary">Plătește</a>
     @section('scripts')
         <script type="text/javascript">
             $(".update-cart").click(function (e) {

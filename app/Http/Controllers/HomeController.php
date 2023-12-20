@@ -30,4 +30,13 @@ class HomeController extends Controller
         $events = Event::orderBy('id', 'ASC')->paginate(6);
         return view('home', compact('events'));
     }
+
+    public function view($eventId)
+    {
+        $event = Event::find($eventId);
+        if (!$event) {
+            abort(404); // Event not found
+        }
+        return view('view', compact('event'));
+    }
 }

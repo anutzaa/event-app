@@ -43,8 +43,9 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/view/{id}', [HomeController::class, 'view'])->name('view');
     Route::get('cart', [TicketController::class, 'cart'])->name('cart');
-    Route::get('add-to-cart/{id}', [TicketController::class, 'addToCart']);
+    Route::get('add-to-cart/{id}', [TicketController::class, 'addToCart'])->name('add-to-cart');
     Route::patch('update-cart', [TicketController::class, 'update']);
     Route::delete('remove-from-cart', [TicketController::class, 'destroy']);
     Route::post('/checkout', [TicketController::class, 'checkout'])->name('checkout.process');

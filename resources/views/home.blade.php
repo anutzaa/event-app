@@ -15,7 +15,7 @@
                             <p><strong>Data și Ora: </strong>{{ $event->date }} - {{ $event->time }}</p>
                             <p><strong>Locație: </strong>{{ $event->location }}</p>
                             <p class="btn-holder">
-                                <a href="{{ route('events.show', $event->id) }}" class="btn btn-primary btn-block text-center" role="button">Detalii Eveniment</a>
+                                <a href="{{ route('view', $event->id) }}" class="btn btn-primary btn-block text-center" role="button">Detalii Eveniment</a>
                                 <a href="{{ url('add-to-cart/'.$event->id) }}" class="btn btn-warning btn-block text-center" role="button">Cumpără Bilet</a>
                             </p>
                         </div>
