@@ -86,7 +86,7 @@
             <div class="col-lg-12 col-sm-12 col-12 main-section">
                 <div class="dropdown">
                     <button type="button" class="btn btn-primary" data-toggle="dropdown">
-                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cos
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Coșul meu
                         <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span>
                     </button>
                     <br>
@@ -102,7 +102,7 @@
                                     <?php $total += $details['price'] * $details['quantity'] ?>
                             @endforeach
                             <div class="col-lg-6 col-sm-6 col-6 total-section text-right">
-                                <p>Total: <span class="text-info">$ {{ $total }}</span></p>
+                                <p>Total: <span class="text-info">${{ $total }}</span></p>
                             </div>
                         </div>
                         @if(session('cart'))
@@ -122,7 +122,7 @@
                         @endif
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-12 text-center checkout">
-                                <a href="{{ url('cart') }}" class="btn btn-primary btn-block">Afisare tot</a>
+                                <a href="{{ url('cart') }}" class="btn btn-primary btn-block">Mergi la coș</a>
                             </div>
                         </div>
                     </div>
