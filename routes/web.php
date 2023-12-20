@@ -41,14 +41,29 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
 
 });
 
-Route::group(['middleware' => 'auth'], function () {
+
+Route::middleware(['auth'])->group(function () {
     Route::get('/view/{id}', [HomeController::class, 'view'])->name('view');
+    // Cart routes
     Route::get('cart', [TicketController::class, 'cart'])->name('cart');
-    Route::get('add-to-cart/{id}', [TicketController::class, 'addToCart'])->name('add-to-cart');
+    Route::get('add-to-cart/{id}', [TicketController::class, 'addToCart']);
     Route::patch('update-cart', [TicketController::class, 'update']);
     Route::delete('remove-from-cart', [TicketController::class, 'destroy']);
-    Route::post('/checkout', [TicketController::class, 'checkout'])->name('checkout.process');
-    Route::get('/checkout', [TicketController::class, 'checkout'])->name('checkout');
-    Route::get('/success', [TicketController::class, 'success'])->name('checkout.success');
+
+    Route::resource('tickets', TicketController::class);
+    // Checkout routes
+    Route::get('checkout', [TicketController::class, 'checkout'])->name('checkout');
+    Route::get('checkout/success', [TicketController::class, 'success'])->name('checkout.success');
+    Route::get('checkout/page', [TicketController::class, 'checkout'])->name('checkout.page');
+
+    // Add to cart from event routes
+    Route::get('add-to-cart-from-event/{eventId}', [TicketController::class, 'addToCartFromEvent'])
+        ->name('add.to.cart.from.event');
+
+    // Example route
+    Route::get('example', [TicketController::class, 'index']);
+
+    Route::resource('tickets', TicketController::class);
+    Route::get('/tickets', [TicketController::class, 'index'])->name('tickets');
 });
 

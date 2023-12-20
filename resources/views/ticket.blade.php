@@ -9,10 +9,9 @@
                         <h3>{{ $ticket->type }}</h3>
                         <div class="caption">
                             <p><h4><strong>Preț: </strong>{{ $ticket->price }}$</h4></p>
-                            <!--p>{{ Str::limit(strtolower($ticket->description), 50) }}</--p-->
-                            <p><strong>Bilete rămase: </strong>{{ Str::limit(strtolower($ticket->available), 50) }}</p>
+                            <!--p>{{ Str::limit($ticket->description), 50}}</--p-->
                             <p class="btn-holder"><a href="{{ url('add-to-cart/'.$ticket->id) }}" class="btn btn-warning btn-block text-center"
-                                <a href="{{ route('events.create') }}" class="btn btn-warning btn-block text-center" role="button">Adaugă în coș</a>
+                                <a href="{{ route('tickets') }}" class="btn btn-warning btn-block text-center" role="button">Adaugă în coș</a>
                         </div>
                     </div>
                 </div>

@@ -41,7 +41,7 @@
         <br>
 
             <div style="text-align: center;">
-                <a href="{{ url('add-to-cart/'.$event->id) }}" class="btn btn-warning btn-block text-center" role="button" >Cumpără Bilet</a>
+                <a href="{{ route('tickets') }}" class="btn btn-warning btn-block text-center" role="button" >Cumpără Bilet</a>
             </div>
             <br>
             <br>

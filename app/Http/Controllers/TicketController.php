@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
-
+use App\Models\Event;
 
 class TicketController extends Controller
 {
@@ -26,8 +26,13 @@ class TicketController extends Controller
         return view('cart');
     }
 
-    public function addToCart($id)
+    public function addToCart(Request $request, $id)
     {
+
+        $request->validate([
+            'quantity' => 'required|numeric|min:1',
+        ]);
+
         $ticket = Ticket::find($id);
         if (!$ticket) {
             abort(404);
@@ -45,7 +50,7 @@ class TicketController extends Controller
                     "name" => $ticket->type,
                     "quantity" => 1,
                     "price" => $ticket->price,
-                    "photo" => $ticket->available
+                    "available" => $ticket->available
                 ];
                 //micsoram numarul de bilete disponibile
                 $ticket->available--;
@@ -101,6 +106,7 @@ class TicketController extends Controller
         }
     }
 
+
     /**
      * Create a checkout session for Stripe.
      *
@@ -151,27 +157,56 @@ class TicketController extends Controller
 
     private function calculateTotalAmount($cart)
     {
+        // Implement your logic to calculate the total amount from the cart data
+        // ...
+
         return 1000; // Replace with your logic
     }
 
     private function prepareLineItems($cart)
     {
-        return [
-            [
+        $lineItems = [];
+
+        foreach ($cart as $id => $details) {
+            $lineItems[] = [
                 'price_data' => [
-                    'currency' => 'RON', // Set your currency code here
+                    'currency' => 'RON',
                     'product_data' => [
-                        'name' => 'Product Name',
+                        'name' => $details['name'],
                     ],
-                    'unit_amount' => 1000, // Set your unit amount here
+                    'unit_amount' => $details['price'] * 100, // Amount in cents
                 ],
-                'quantity' => 1, // Set the quantity based on your cart data
-            ],
-        ];
+                'quantity' => $details['quantity'],
+            ];
+        }
+
+        return $lineItems;
     }
     public function createTicket()
     {
         return view('events.create');
     }
-}
 
+
+
+    public function addToCartFromEvent($eventId)
+    {
+        dd($eventId);
+        $event = Event::find($eventId);
+
+        if (!$event) {
+            abort(404);
+        }
+
+        // Add your logic to determine which ticket to add based on the event
+
+        $ticketId = $event->ticket_id; // Replace with your logic to get the appropriate ticket ID
+
+        $request = new Request([
+            'quantity' => 1, // You can modify the quantity as needed
+        ]);
+
+        // Call the existing addToCart method
+        return $this->addToCart($request, $ticketId);
+    }
+}
