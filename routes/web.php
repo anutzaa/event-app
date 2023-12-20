@@ -9,6 +9,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\StripeController;
 
 
 Route::get('/', function () {
@@ -44,26 +45,20 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/view/{id}', [HomeController::class, 'view'])->name('view');
-    // Cart routes
-    Route::get('cart', [TicketController::class, 'cart'])->name('cart');
-    Route::get('add-to-cart/{id}', [TicketController::class, 'addToCart']);
-    Route::patch('update-cart', [TicketController::class, 'update']);
-    Route::delete('remove-from-cart', [TicketController::class, 'destroy']);
-
-    Route::resource('tickets', TicketController::class);
-    // Checkout routes
-    Route::get('checkout', [TicketController::class, 'checkout'])->name('checkout');
-    Route::get('checkout/success', [TicketController::class, 'success'])->name('checkout.success');
-    Route::get('checkout/page', [TicketController::class, 'checkout'])->name('checkout.page');
-
-    // Add to cart from event routes
-    Route::get('add-to-cart-from-event/{eventId}', [TicketController::class, 'addToCartFromEvent'])
-        ->name('add.to.cart.from.event');
-
-    // Example route
-    Route::get('example', [TicketController::class, 'index']);
 
     Route::resource('tickets', TicketController::class);
     Route::get('/tickets', [TicketController::class, 'index'])->name('tickets');
+
+    //stripe
+    Route::any('/session', [StripeController::class, 'session'])->name('session');
+    Route::get('/success', [StripeController::class, 'success'])->name('success');
+    Route::get('/checkout', [StripeController::class, 'checkout'])->name('checkout');
+
+    //cos
+    Route::get('/ticket', [TicketController::class, 'index']);
+    Route::get('cart', [TicketController::class, 'cart']);
+    Route::get('add-to-cart/{id}', [TicketController::class, 'addToCart']);
+    Route::patch('update-cart', [TicketController::class, 'update']);
+    Route::delete('remove-from-cart', [TicketController::class, 'remove']);
 });
 

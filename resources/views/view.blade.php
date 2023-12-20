@@ -31,7 +31,7 @@
                 <h4>Îl vom avea alături pe<strong>  {{ $event->speaker->name }}</strong> în calitate de speaker.</h4>
             </div>
             <div class="form-group" style="text-align: center;">
-                <h4>Sponsorul evenimentului este compania <strong>{{ $event->sponsor->name }} </strong>.</h4>
+                <h4>Sponsorul evenimentului este compania <strong>{{ $event->sponsor->name }}</strong>.</h4>
             </div>
             <div class="form-group" style="text-align: center;">
                 <h4> Partenerul evenimentului este <strong> {{ $event->partner->name }}</strong>.</h4>

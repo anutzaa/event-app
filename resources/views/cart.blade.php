@@ -1,12 +1,13 @@
 @extends('cartlayout')
+
 @section('title', 'Cart')
+
 @section('content')
     <table id="cart" class="table table-hover table-condensed">
         <thead>
         <tr>
-            <th style="width:50%">Eveniment</th>
-            <th style="width:10%">Tip bilet</th>
-            <th style="width:10%">Preț</th>
+            <th style="width:50%">Ticket</th>
+            <th style="width:10%">Pret</th>
             <th style="width:8%">Cantitate</th>
             <th style="width:22%" class="text-center">Subtotal</th>
             <th style="width:10%"></th>
@@ -18,24 +19,23 @@
             @foreach(session('cart') as $id => $details)
                     <?php $total += $details['price'] * $details['quantity'] ?>
                 <tr>
-                    <td data-th="Product">
+                    <td data-th="Ticket">
                         <div class="row">
-                            <div class="col-sm-3 hidden-xs"></div>
+                            <div class="col-sm-3 hidden-xs">
+                            </div>
                             <div class="col-sm-9">
-                                <h4 class="nomargin">{{ $details['type'] }}</h4>
+                                <h4 class="nomargin">{{ $details['name'] }}</h4>
                             </div>
                         </div>
                     </td>
                     <td data-th="Price">${{ $details['price'] }}</td>
                     <td data-th="Quantity">
-                        <input type="number" value="{{ $details['quantity'] }}"
-                               class="form-control quantity" />
+                        <input type="number" value="{{ $details['quantity'] }}" class="form-control quantity" />
                     </td>
-                    <td data-th="Subtotal" class="text-center">${{$details['price'] * $details['quantity'] }}</td>
+                    <td data-th="Subtotal" class="text-center">${{ $details['price'] * $details['quantity'] }}</td>
                     <td class="actions" data-th="">
                         <button class="btn btn-info btn-sm update-cart" data-id="{{ $id }}"><i class="fa fa-refresh"></i></button>
-                        <button class="btn btn-danger btn-sm remove-from-cart"
-                                data-id="{{ $id }}"><i class="fa fa-trash-o"></i></button>
+                        <button class="btn btn-danger btn-sm remove-from-cart" data-id="{{ $id }}"><i class="fa fa-trash-o"></i></button>
                     </td>
                 </tr>
             @endforeach
@@ -43,20 +43,17 @@
         </tbody>
         <tfoot>
         <tr class="visible-xs">
-            <td class="text-center"><strong>Total {{ $total }}</strong></td>
+            <td class="text-center"><strong>Total: ${{ $total }}</strong></td>
         </tr>
         <tr>
-            <td><a href="{{ url('/') }}" class="btn btn-success"><i class="fa fa-angle-left"></i> Continuă cumpărăturile</a></td>
+            <td><a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continuă cumpărăturile</a></td>
             <td colspan="2" class="hidden-xs"></td>
-            <td class="hidden-xs text-center"><strong>Total ${{ $total }}</strong></td>
+            <input type="hidden" name="_token" value="{{csrf_token()}} ">
+            <td><a href="{{ route('checkout') }}" class="btn btn-success" id="checkout-live-button"><i class="fa fa-money"></i>Plătește</a></td>
         </tr>
         </tfoot>
     </table>
-    <table id="cart" class="table table-hover table-condensed">
-        <!-- Existing table code goes here -->
-    </table>
-        <!-- Existing scripts go here -->
-    <a href="{{ route('checkout') }}" class="btn btn-primary">Plătește</a>
+
     @section('scripts')
         <script type="text/javascript">
             $(".update-cart").click(function (e) {
@@ -65,17 +62,17 @@
                 $.ajax({
                     url: '{{ url('update-cart') }}',
                     method: "patch",
-                    data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id"),
-                        quantity: ele.parents("tr").find(".quantity").val()},
+                    data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id"), quantity: ele.parents("tr").find(".quantity").val()},
                     success: function (response) {
                         window.location.reload();
                     }
                 });
             });
+
             $(".remove-from-cart").click(function (e) {
                 e.preventDefault();
                 var ele = $(this);
-                if(confirm("Esti sigur!!!")) {
+                if(confirm("Esti sigur?")) {
                     $.ajax({
                         url: '{{ url('remove-from-cart') }}',
                         method: "DELETE",
@@ -89,34 +86,4 @@
         </script>
     @endsection
 
-    <script type="text/javascript">
-        $(".update-cart").click(function (e) {
-            e.preventDefault();
-            var ele = $(this);
-            $.ajax({
-                url: '{{ url('update-cart') }}',
-                method: "patch",
-                data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id"),
-                    quantity: ele.parents("tr").find(".quantity").val()},
-                success: function (response) {
-                    window.location.reload();
-                }
-            });
-        });
-        $(".remove-from-cart").click(function (e) {
-            e.preventDefault();
-            var ele = $(this);
-            if(confirm("Esti sigur?")) {
-                $.ajax({
-                    url: '{{ url('remove-from-cart') }}',
-                    method: "DELETE",
-                    data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id")},
-                    success: function (response) {
-                        window.location.reload();
-                    }
-                });
-            }
-        });
-    </script>
 @endsection
-

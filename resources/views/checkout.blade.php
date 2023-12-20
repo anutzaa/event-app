@@ -5,7 +5,7 @@
 @section('content')
     <!-- Your existing cart table here -->
 
-    <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
+    <a href="{{ url('/home') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
 
     <!-- Stripe Checkout form -->
     <div class="container mt-4">
