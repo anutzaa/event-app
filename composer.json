@@ -12,7 +12,7 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "*",
         "laravelcollective/html": "^6.4",
-        "stripe/stripe-php": "^13.6"
+        "stripe/stripe-php": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

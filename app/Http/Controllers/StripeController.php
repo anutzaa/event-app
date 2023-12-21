@@ -3,46 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Stripe\Exception\ApiErrorException;
-use Stripe\Stripe;
-use Stripe\Checkout\Session;
 
 class StripeController extends Controller
 {
-    public function __construct() {
-        Stripe::setApiKey(env('sk_test_51OPTy8KJkHDXhfI8CfUiyCiZYSVVzQct4BYDSc9yy9thZbB1aXtm1erVzUexzH6Hdb1JIZLHcx2OlTgIKfk04lgN00FNaAHPnS'));
-    }
-
     public function checkout()
     {
         return view('checkout');
     }
 
-    public function session()
+    public function session(Request $request)
     {
-        Stripe::setApiKey(config('sk_test_51OPTy8KJkHDXhfI8CfUiyCiZYSVVzQct4BYDSc9yy9thZbB1aXtm1erVzUexzH6Hdb1JIZLHcx2OlTgIKfk04lgN00FNaAHPnS.sk'));
+        \Stripe\Stripe::setApiKey(config('stripe.sk'));
 
-        // Obține produsele din coș
-        $cartItems = session('cart');
+        $productname = $request->get('productname');
+        $totalprice = $request->get('total');
+        $two0 = "00";
+        $total = "$totalprice$two0";
 
-        // Construiește array-ul de linii pentru checkout
-        $lineItems = [];
-        foreach ($cartItems as $id => $details) {
-            $lineItems[] = [
-                'price_data' => [
-                    'currency'     => 'eur',
-                    'product_data' => [
-                        'name' => $details['name'],
+        $session = \Stripe\Checkout\Session::create([
+            'line_items'  => [
+                [
+                    'price_data' => [
+                        'currency'     => 'USD',
+                        'product_data' => [
+                            "name" => $productname,
+                        ],
+                        'unit_amount'  => $total,
                     ],
-                    'unit_amount'  => $details['price'] * 100, // Convertim în cenți
+                    'quantity'   => 1,
                 ],
-                'quantity'   => $details['quantity'],
-            ];
-        }
 
-        // Crează sesiunea de checkout
-        $session = Session::create([
-            'line_items'  => $lineItems,
+            ],
             'mode'        => 'payment',
             'success_url' => route('success'),
             'cancel_url'  => route('checkout'),
@@ -50,12 +41,9 @@ class StripeController extends Controller
 
         return redirect()->away($session->url);
     }
+
     public function success()
     {
-        // Display success message
-        $message = "Thanks for your order. You have just completed your payment. The seller will reach out to you as soon as possible!";
-
-        // Redirect to the "/ticket" route
-        return redirect('/home')->with('success_message', $message);
+        return "Multumim pentru achizitionare! :)";
     }
 }

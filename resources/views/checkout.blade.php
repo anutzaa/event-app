@@ -1,90 +1,56 @@
-<!-- resources/views/checkout.blade.php -->
-
-@extends('layouts.app')
-@section('title', 'Checkout')
-@section('content')
-    <!-- Your existing cart table here -->
-
-    <a href="{{ url('/home') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
-
-    <!-- Stripe Checkout form -->
-    <div class="container mt-4">
-        <h2>Payment Details</h2>
-        <form id="payment-form">
-            <div class="form-group">
-                <label for="card-holder-name">Cardholder Name</label>
-                <input type="text" id="card-holder-name" class="form-control" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plata cu Stripe</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class='row'>
+        <h1>Plata cu Stripe</h1>
+        <div class='col-md-12'>
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <table id="cart" class="table table-hover table-condensed">
+                        <thead>
+                        <tr>
+                            <th style="width:50%">Product</th>
+                            <th style="width:10%"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td data-th="Quantity">
+                                <input type="number" value="1" class="form-control quantity cart_update" min="1" />
+                            </td>
+                            <td class="actions" data-th="">
+                                <button class="btn btn-danger btn-sm cart_remove"><i class="fa fa-trash-o"></i> Delete</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="5" style="text-align:right;">
+                                <form action="/session" method="POST">
+                                    <a href="{{ url('/') }}" class="btn btn-danger"> <i class="fa fa-arrow-left"></i> Continue Shopping</a>
+                                    <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                    <input type='hidden' name="total" value="6">
+                                    <input type='hidden' name="productname" value="Asus Vivobook 17 Laptop - Intel Core 10th">
+                                    <button class="btn btn-success" type="submit" id="checkout-live-button"><i class="fa fa-money"></i> Checkout</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="card-element">Card Details</label>
-                <div id="card-element" class="form-control"></div>
-            </div>
-            <button id="card-button" class="btn btn-primary">Pay Now</button>
-        </form>
+        </div>
     </div>
-
-    <div id="error-message" role="alert"></div>
-
-    @section('scripts')
-        <script src="https://js.stripe.com/v3/"></script>
-        <script>
-            var stripe = Stripe('pk_test_51OH7g3J8NGqPZGbSOaSzPuVwwkM9e5qdhj8TlBipKFD5a663XnNQLwsWWe38m8eee2jKDLB8GWxA8zByGX8LGZkz00Ceg7M6Jt'); // Replace with your actual publishable key
-            var elements = stripe.elements();
-            var card = elements.create('card');
-            card.mount('#card-element');
-
-            card.addEventListener('change', function (event) {
-                var displayError = document.getElementById('error-message');
-                if (event.error) {
-                    displayError.textContent = event.error.message;
-                } else {
-                    displayError.textContent = '';
-                }
-            });
-
-            var form = document.getElementById('payment-form');
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                stripe.createToken(card).then(function (result) {
-                    if (result.error) {
-                        var errorElement = document.getElementById('error-message');
-                        errorElement.textContent = result.error.message;
-                    } else {
-                        // Send the token to your server
-                        stripeTokenHandler(result.token);
-                    }
-                });
-            });
-
-            function stripeTokenHandler(token) {
-                // You can add additional data to be sent to the server along with the token
-                var data = {
-                    token: token.id,
-                    // Add any other data you need to send
-                };
-
-                // Use fetch or your preferred method to send the data to the server
-                fetch('/checkout/process', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        // Add any other headers if needed
-                    },
-                    body: JSON.stringify(data),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Handle the response from the server (e.g., redirect to success page)
-                        console.log(data);
-                        // Replace the following line with your desired success action
-                        window.location.href = '/checkout/success';
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        // Handle errors as needed
-                    });
-            }
-        </script>
-    @endsection
-@endsection
+</div>
+</body>
+</html>
